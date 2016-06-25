@@ -23,11 +23,28 @@ Data : 2016-06-25 ~ 2016-06-26
 
 
 ![Hackathon web index img](Hackathon web index.png)
+
 위 이미지는 웹 서버 초기 Index 페이지 입니다.
+
 ![Hackathon web zoom img](Hackathon web zoom.png)
+
 위 이미지는 지도에 대한 Zoom 기능 시연
+
 ![Hackathon data visualization img](Hackathon Visualization.png)
+
 위 이미지는 장소 데이터 중 클릭시 세부 페이지로 이동 되어 데이터를 시각화하여 보여줍니다.
+
+- - -
+
+### 장비 구조 이미지
+
+![dev](structure.jpg)
+
+![ardu](ardu1.jpg)
+
+![ardu](ardu2.jpg)
+
+![rasp](rasp.jpg)
 
 
 
