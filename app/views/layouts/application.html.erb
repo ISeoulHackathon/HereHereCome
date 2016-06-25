@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>HackathonProject</title>
+  <meta charset="utf-8">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -17,9 +18,19 @@
 
 </head>
 <body>
-
-<%= yield %>
-
-
+    <div class="jumbotron" id="jumbo">
+    </div>
+    <div class="container">
+        <%= yield %>
+    </div>
+    <div class="container">
+        <div class="site-footer">
+            <div class="wrapper">
+                <div class="footer-wrapper">
+                    <span>&copy; 2016 - 2016 by hackathon</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
