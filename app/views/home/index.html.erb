@@ -7,7 +7,7 @@
 <script>
 
 // set params
-var width = 1000,
+var width = 1100,
     height = 800;
 
 var svg = d3.select("#chart").append("svg")
@@ -53,12 +53,96 @@ d3.csv("places.csv", function(data) {
       .attr("cy", function(d) { return projection([d.lon, d.lat])[1]; })
       .attr("r", 10);
 
-  points.selectAll("text")
-      .data(data)
-      .enter().append("text")
-      .attr("x", function(d) { return projection([d.lon, d.lat])[0]; })
-      .attr("y", function(d) { return projection([d.lon, d.lat])[1] + 8; })
-      .text(function(d) { return d.name });
+  // points.selectAll("text")
+  //     .data(data)
+  //     .enter().append("text")
+  //     .attr("x", function(d) { return projection([d.lon, d.lat])[0]; })
+  //     .attr("y", function(d) { return projection([d.lon, d.lat])[1] + 8; })
+  //     .text(function(d) { return d.name });
+  
+  // add circle labels
+    var labels = [],
+        labelLinks = [];
+
+    data.forEach(function(d, i) {
+        var p = projection([d.lon, d.lat]);
+        var node = {
+            label: d.name,
+            x: p[0],
+            y: p[1]
+        };
+        labels.push({
+            node: node
+        });
+        labels.push({
+            node: node
+        }); // push twice
+        labelLinks.push({
+            source: i * 2,
+            target: i * 2 + 1,
+            weight: 1,
+            x: 100
+        });
+    });
+
+    var force = d3.layout.force()
+        .nodes(labels)
+        .links(labelLinks)
+        .gravity(0)
+        .linkDistance(0)
+        .linkStrength(8)
+        .charge(-100)
+        .size([width, height])
+        .on("tick", tick);
+
+    function tick() {
+        circleNode.call(updateNode);
+        labelNode.each(function(d, i) {
+            if (i % 2 == 0) {
+                d.x = d.node.x;
+                d.y = d.node.y;
+            } else {
+                var b = this.childNodes[1].getBBox();
+                var diffX = d.x - d.node.x,
+                    diffY = d.y - d.node.y;
+                var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+                var shiftX = Math.min(0, b.width * (diffX - dist) / (dist * 2));
+                var shiftY = 5;
+                this.childNodes[1].setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+            }
+        });
+        labelNode.call(updateNode);
+    }
+
+    var circleNode = points.selectAll("circle")
+        .data(points)
+        .enter().append("circle")
+        .attr("class", "node")
+        .attr("r", 6)
+        .style("fill", "#555")
+        .style("stroke-width", 3);
+
+    var labelNode = points.selectAll("g")
+        .data(force.nodes())
+        .enter().append("g")
+        .attr("class", "labelNode");
+
+    labelNode.append("circle")
+        .attr("r", 0)
+        .style("fill", "red");
+
+    labelNode.append("text")
+        .text(function(d, i) {
+            return i % 2 == 0 ? "" : d.node.label
+        })
+        .style("fill", "#555")
+    var updateNode = function() {
+        this.attr("transform", function(d) {
+            return "translate(" + d.x + "," + d.y + ")";
+        });
+    }
+
+    force.start();
 });
 function zoomed() {
   // projection.translate(d3.event.translate).scale(d3.event.scale);
