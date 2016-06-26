@@ -47,5 +47,16 @@ Data : 2016-06-25 ~ 2016-06-26
 ![rasp](rasp.jpg)
 
 
+---
 
+참고  
 
+* [seoul maps data](https://github.com/southkorea/seoul-maps)
+* [d3 참고](https://www.lucypark.kr/blog/2015/06/24/seoul-matzip-mapping/)
+* [d3 참고 - 마이크 보스톡](http://bl.ocks.org/mbostock)
+
+---
+
+### License
+
+Apache v2.0
